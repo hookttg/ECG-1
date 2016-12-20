@@ -13,6 +13,49 @@ RSV={{},{},ann114SV,ann118SV,ann210SV,ann223SV,ann233SV}; %id=3
 
 signals={sig105,sig106,sig114,sig118,sig210,sig223,sig233};
 
+%% N = 1 (id)
+
+N=n;
+class=1;
+k=1;
+for i=1:N %iteracja po kole
+    %m=i;
+    signal=signals{1,i};
+    
+    for j=1:length(QsVE)
+        if QsVE(i,j)>0
+           
+            %i to kolejny sygnal w strukturze i kolejny wiersz w macierzach
+            %j to kolejne probki czy kolejne za?amki QRS
+            
+            Q=QsVE(i,j); %indeks Q
+            S=SsVE(i,j); %indeks S
+            R=RsVE(i,j); %indeks R
+            
+            %[A,B]=funckja_ksztaltu(signal,Q,S,R);
+            %[C,D]=funckja_ksztaltu2(signal,Q,S,R);
+               
+           
+             %klasa(j,:)=[A,B,C,D,i,R,class] %wpisujmy tez ktory sygnal i ktory
+             %to zalamek na zas i nazwe klasy na zas do kazdego tez
+             
+             [ampR]=R_peak_amplitude(signal,Q,S);
+             [QRSenergy]=QRS_energy(signal,Q,S);
+             [PtN]=Positive_to_Negative(signal,Q,S);
+             [AtP]=Area_to_Perimeter(signal,Q,S);
+             vec=[ampR,QRSenergy,PtN,AtP,i,R,class];
+             Nclass(k,:)=vec;
+             k=k+1;
+        end
+        
+        
+        % i tutaj tworzymy caly wektor dla jednej klasy, kolejne wiersze to
+        % kolejne QRS w roznych sygnalach
+        
+    end
+    
+end
+
 %% VE = 2 (id)
 N=n;
 class=2;
@@ -39,7 +82,10 @@ for i=1:N %iteracja po kole
              %to zalamek na zas i nazwe klasy na zas do kazdego tez
              
              [ampR]=R_peak_amplitude(signal,Q,S);
-             vec=[ampR,i,R,class];
+             [QRSenergy]=QRS_energy(signal,Q,S);
+             [PtN]=Positive_to_Negative(signal,Q,S);
+             [AtP]=Area_to_Perimeter(signal,Q,S);
+             vec=[ampR,QRSenergy,PtN,AtP,i,R,class];
              VEclass(k,:)=vec;
              k=k+1;
         end
@@ -80,7 +126,9 @@ for i=1:N %iteracja po kole
              
              [ampR]=R_peak_amplitude(signal,Q,S);
              [QRSenergy]=QRS_energy(signal,Q,S);
-             vec=[ampR,QRSenergy,i,R,class];
+             [PtN]=Positive_to_Negative(signal,Q,S);
+             [AtP]=Area_to_Perimeter(signal,Q,S);
+             vec=[ampR,QRSenergy,PtN,AtP,i,R,class];
              SVclass(k,:)=vec;
              k=k+1;
         end
