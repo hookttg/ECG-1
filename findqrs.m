@@ -13,7 +13,10 @@ rs=round(rstime*Fs);
 
 for j=1:n
     
+  
     R=Rs{1,j};
+    
+    if ~isempty(R)
     
     Q=zeros(1,length(R));
     S=Q;
@@ -26,6 +29,7 @@ for j=1:n
     Qs(j,1:length(R))=Q';
     Ss(j,1:length(R))=S';
     RS(j,1:length(R))=R;
+    end
 end
     
 end
