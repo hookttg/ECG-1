@@ -7,9 +7,11 @@ RN={ann105N,ann106N,ann114N,{},ann210N,ann223N,ann233N}; %id=1
 RVE={ann105VE,ann106VE,ann114VE,ann118VE,ann210VE,ann223VE,ann233VE}; %id=2
 RSV={{},{},ann114SV,ann118SV,ann210SV,ann223SV,ann233SV}; %id=3
 
-[QsVE,SsVE,RsVE]=findqrs(RVE,Fs,n); % tu brakuje informacji do ktorego sygnalu odnosza sie te indeksy qrs
-[QsN,SsN,RsN]=findqrs(RN,Fs,n);     % musimy dodac jakis kolejny wymiar macierzy ktory bedzie zawieral nr sygnalu
-[QsSV,SsSV,RsSV]=findqrs(RSV,Fs,n); % bo teraz kod dziala zle
+
+
+[QsVE,SsVE,RsVE]=findqrs(RVE,Fs,n); 
+[QsN,SsN,RsN]=findqrs(RN,Fs,n);
+[QsSV,SsSV,RsSV]=findqrs(RSV,Fs,n);
 
 signals={sig105,sig106,sig114,sig118,sig210,sig223,sig233};
 
