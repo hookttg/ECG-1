@@ -99,7 +99,7 @@ int main() {
     
     // obliczenie wspolczynnikow funkcji klasyfikujacej
     Eigen::RowVectorXd u(liczbaCech);
-    Eigen::VectorXd a(liczbaCech);
+    Eigen::MatrixXd a(liczbaCech,1);
     Eigen::MatrixXd a0(1,1);
     Eigen::MatrixXd logpi(1,1);
     
@@ -107,6 +107,7 @@ int main() {
     a = sigma.inverse()*u.transpose();
     logpi << log(piN/piVE);
     a0 = logpi-(((uN+uVE)*sigma.inverse()*(uN-uVE).transpose())/2);
+    cout << "a0 = " << a0 << endl;
     /* komentarz do wspolczynnikow a
      Generalnie to jest problem z ta sigma^(-1). Inaczej liczy mi to cpp
      a inaczej matlab dla tych samych danych. Wiec koniec koncow
@@ -132,24 +133,27 @@ int main() {
     // wektor wynikow
     Eigen::VectorXd klasyfikacja(testDl);
     Eigen::MatrixXd f(1,1);
-    //Do tego momentu wszystko dziala, ta petla for ponizej nie hula
-    //////////////////////////////////////////////////////
-    for(int i=0; i<4; i++){
-        f(1,1) = a0(1,1);
-        for(int j=0; j<liczbaCech; j++){
-            f(1,1) = f(1,1)+test(i,j)*a(j); // tu jest blad, podejrzewam ze zle typy danych (macierzy)
+    Eigen::MatrixXd temp(1,1);
+ 
+    f << 0;
+   for(int i=0; i<=3; i++){
+
+        for(int j=0; j<=3; j++){
+            temp << test(i,j)*a(j,0); // tu jest blad, podejrzewam ze zle typy danych (macierzy)
+            cout << "temp: " << temp << endl;
+            f = f+temp;
+            cout << "f: " << endl << f << endl;
         }
         
-        if(f(1,1)>=0){
-            klasyfikacja(i)=1; //N
+        if(f(0,0)<0){
+            klasyfikacja(i)=2; //VE
         }
         else{
-            klasyfikacja(i)=2; //VE
+            klasyfikacja(i)=1; //N
         }
     }
     
     cout << "klasyfikacja: " << endl << klasyfikacja << endl;
-    /////////////////////////////////////////////////////////
     
     //tu sobie wypisuje wyniki
     cout << "suma * sigma-1: : " << (uN+uVE)*sigma.inverse() << endl;
