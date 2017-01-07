@@ -8,7 +8,7 @@
 using namespace std;
 
 
-int FileLength(string filename){
+int FileLength(const char* filename){
 
     int lines = 0;
     std::string line;
@@ -25,7 +25,7 @@ int FileLength(string filename){
 
 
 
-Eigen::MatrixXd readCSV(std::string file, int rows, int cols) {
+Eigen::MatrixXd readCSV(const char* file, int rows, int cols) {
     
   std::ifstream in(file);
   
@@ -243,9 +243,9 @@ Eigen::VectorXd LDA_class(const Eigen::MatrixXd& training1, const Eigen::MatrixX
 int main(){
 
     int featureNumber=4;
-    string VEtrain="training1.csv";
-    string Ntrain="training2.csv";
-    string VENtest="test.csv";
+const char*  VEtrain="training1.csv";
+   const char*  Ntrain="training2.csv";
+   const char* VENtest="test.csv";
 
     int VElength=FileLength(VEtrain);
     int Nlength=FileLength(Ntrain);
