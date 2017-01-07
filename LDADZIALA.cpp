@@ -208,10 +208,10 @@ Eigen::VectorXd LDA_class(const Eigen::MatrixXd& training1, const Eigen::MatrixX
         }
         f = f + a0;
         if(f(0,0)<0){
-            klasyfikacja(i)=2;
+            klasyfikacja(i)=1;
         }
         else{
-            klasyfikacja(i)=1;
+            klasyfikacja(i)=2;
         }
     }
     
@@ -242,7 +242,7 @@ Eigen::VectorXd LDA_class(const Eigen::MatrixXd& training1, const Eigen::MatrixX
 
 int main(){
 
-    int featureNumber=4;
+    int featureNumber=5;
 const char*  VEtrain="training1.csv";
    const char*  Ntrain="training2.csv";
    const char* VENtest="test.csv";
