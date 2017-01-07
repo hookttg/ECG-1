@@ -1,10 +1,13 @@
 #include <iostream>
 
 #include <Eigen/Dense>
+#include <Eigen/SVD>
+
+//using namespace Eigen;
 
 using namespace std;
 
-VectorXd LDA_class(const MatrixXd& training1, const MatrixXd& training2, const MatrixXd& test){
+Eigen::VectorXd LDA_class(const Eigen::MatrixXd& training1, const Eigen::MatrixXd& training2, const Eigen::MatrixXd& test){
     
     /*generalnie ten skrypt ma byc funkcja ktora na wejsciu przyjmie
      zbior uczacy i testowy. Zbiory te beda wynikami dzialania innego
@@ -26,20 +29,19 @@ VectorXd LDA_class(const MatrixXd& training1, const MatrixXd& training2, const M
     
     //liczba cech
     int featureNumber = training1.cols();
-    // teraz zakladam ze bedzie tyle samo obiektow klasy VE i N
-    // liczba probek klasy VE (2) zbioru uczacego
-    double c1 = training1.rows()/2;
-    // liczba probek klasy N (1) zbioru uczacego
-    double c2 = training2.rows()/2;
+    // liczba probek klasy 1 zbioru uczacego
+    double c1 = training1.rows();
+    // liczba probek klasy 2 zbioru uczacego
+    double c2 = training2.rows();
     // liczba wszystkich probek zbioru uczacego
     double N;
     N = c1 + c2;
-    // prawdopodobienstwo wystapienia klasy VE
+    // prawdopodobienstwo wystapienia klasy 1
     double piC1;
-    piVE = c1/N;
-    // prawdopodobienstwo wystapienia klasy N
+    piC1 = c1/N;
+    // prawdopodobienstwo wystapienia klasy 2
     double piC2;
-    piN = c2/N;
+    piC2 = c2/N;
     
     ////////////////////////////////////////////////////////////////////
     // podzial macierzy na dwie - VE i N
@@ -135,7 +137,7 @@ VectorXd LDA_class(const MatrixXd& training1, const MatrixXd& training2, const M
     Eigen::VectorXd klasyfikacja(testLen);
     Eigen::MatrixXd f(1,1);
     Eigen::MatrixXd temp(1,1);
- 
+    klasyfikacja.setZero(testLen);
     f << 0;
    for(int i=0; i<=testLen; i++){
 
@@ -145,16 +147,16 @@ VectorXd LDA_class(const MatrixXd& training1, const MatrixXd& training2, const M
             f = f+temp;
             cout << "f: " << endl << f << endl;
         }
-        
+        /*
         if(f(0,0)<0){
-            klasyfikacja(i)=1; //VE
+            klasyfikacja(i)=2;
         }
         else{
-            klasyfikacja(i)=2; //N
-        }
+            klasyfikacja(i)=1;
+        }*/
     }
     
-    cout << "klasyfikacja: " << endl << klasyfikacja << endl;
+    //cout << "klasyfikacja: " << endl << klasyfikacja << endl;
 
     return klasyfikacja;
     
@@ -174,7 +176,29 @@ VectorXd LDA_class(const MatrixXd& training1, const MatrixXd& training2, const M
     cout << "N: " << N << endl;
     cout << "piC1: " << piC1 << endl;
     cout << "piC2: " << piC2 << endl;
-    cout << "mu VE: " << endl << uVE << endl; 
-    cout << "mu N: " << endl << uN << endl;
+    cout << "mu 1: " << endl << u1 << endl; 
+    cout << "mu 2: " << endl << u2 << endl;
     
+}
+
+int main(){
+
+    Eigen::MatrixXd VEtr(3,4);
+        VEtr << 1, 2, 3, 1,
+        4, 5, 6, 1,
+        7, 8, 9, 1;
+    
+    Eigen::MatrixXd Ntr(3,4);
+        Ntr <<  2, 3, 4, 1,
+        2, 5, 6, 7,
+        5, 2, 6, 7;
+
+    Eigen::MatrixXd test(4,4);
+        test << 1, 2, 3, 4,
+        3, 4, 2, 2,
+        7, 3, 5, 1,
+        9, 5, 2, 5;
+
+    Eigen::VectorXd klasyfikacja = LDA_class(VEtr, Ntr, test);
+
 }
