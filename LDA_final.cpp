@@ -137,29 +137,30 @@ Eigen::VectorXd LDA_class(const Eigen::MatrixXd& training1, const Eigen::MatrixX
     Eigen::VectorXd klasyfikacja(testLen);
     Eigen::MatrixXd f(1,1);
     Eigen::MatrixXd temp(1,1);
-    klasyfikacja.setZero(testLen);
-    f << 0;
-   for(int i=0; i<=testLen; i++){
-
-        for(int j=0; j<=featureNumber; j++){
+    //klasyfikacja.setZero(testLen);
+    
+   
+   for(int i=0; i<testLen; i++){
+        f << 0;
+        for(int j=0; j<featureNumber; j++){
             temp << test(i,j)*a(j,0);
             cout << "temp: " << temp << endl;
             f = f+temp;
             cout << "f: " << endl << f << endl;
         }
-        /*
+        f = f + a0;
         if(f(0,0)<0){
             klasyfikacja(i)=2;
         }
         else{
             klasyfikacja(i)=1;
-        }*/
+        }
     }
     
     //cout << "klasyfikacja: " << endl << klasyfikacja << endl;
 
     return klasyfikacja;
-    
+    /*
     //tu sobie wypisuje wyniki
     cout << "suma * sigma-1: : " << (u1+u2)*sigma.inverse() << endl;
     cout << "trans: " << endl <<  (u1-u1).transpose() << endl;
@@ -177,7 +178,7 @@ Eigen::VectorXd LDA_class(const Eigen::MatrixXd& training1, const Eigen::MatrixX
     cout << "piC1: " << piC1 << endl;
     cout << "piC2: " << piC2 << endl;
     cout << "mu 1: " << endl << u1 << endl; 
-    cout << "mu 2: " << endl << u2 << endl;
+    cout << "mu 2: " << endl << u2 << endl; */
     
 }
 
@@ -199,6 +200,7 @@ int main(){
         7, 3, 5, 1,
         9, 5, 2, 5;
 
-    Eigen::VectorXd klasyfikacja = LDA_class(VEtr, Ntr, test);
+    Eigen::VectorXd result = LDA_class(VEtr, Ntr, test);
+    cout << result << endl;
 
 }
