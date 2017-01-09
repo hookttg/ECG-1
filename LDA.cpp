@@ -26,7 +26,7 @@ int FileLength(const char* filename){
 
 
 Eigen::MatrixXd readCSV(const char* file, int rows, int cols) {
-    
+ // kod źródłowy: https://gist.github.com/infusion/43bd2aa421790d5b4582#file-read-csv-to-eigen-cpp   
   std::ifstream in(file);
   
   std::string line;
